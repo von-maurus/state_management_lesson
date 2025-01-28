@@ -3,5 +3,5 @@ class User {
   int age;
   List<String> professions;
 
-  User({required this.name, required this.age, required this.professions});
+  User({required this.name, required this.age, required this.professions}) : assert(name.isNotEmpty);
 }

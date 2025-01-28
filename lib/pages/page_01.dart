@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:state_management_lesson/models/user.dart';
+import 'package:state_management_lesson/services/user_service.dart';
 
 class Page01 extends StatelessWidget {
   const Page01({super.key});
@@ -9,7 +11,16 @@ class Page01 extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Page 01'),
       ),
-      body: const UserInfo(),
+      body: StreamBuilder(
+        stream: UserService().userStream,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return snapshot.hasData
+              ? UserInfo(user: UserService().user!)
+              : const Center(
+                  child: Text('No hay información'),
+                );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.accessibility_new),
         onPressed: () => Navigator.pushNamed(context, 'page-02'),
@@ -19,7 +30,8 @@ class Page01 extends StatelessWidget {
 }
 
 class UserInfo extends StatelessWidget {
-  const UserInfo({super.key});
+  const UserInfo({super.key, required this.user});
+  final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -27,35 +39,43 @@ class UserInfo extends StatelessWidget {
       width: double.infinity,
       height: double.infinity,
       padding: const EdgeInsets.all(20),
-      child: const SingleChildScrollView(
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "General",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            Divider(),
+            const Divider(),
             ListTile(
-              title: Text("Name"),
+              title: Text(user.name),
             ),
             ListTile(
-              title: Text("Age"),
+              title: Text(user.age.toString()),
             ),
-            Text(
+            const Text(
               "Profession",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            Divider(),
-            ListTile(
-              title: Text("Profession 1"),
+            const Divider(),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: user.professions.length,
+              itemBuilder: (context, index) {
+                final profession = user.professions[index];
+                return ListTile(
+                  title: Text(profession),
+                );
+              },
             ),
-            ListTile(
-              title: Text("Profession 2"),
-            ),
-            ListTile(
-              title: Text("Profession 3"),
-            ),
+            // const ListTile(
+            //   title: Text("Profession 2"),
+            // ),
+            // const ListTile(
+            //   title: Text("Profession 3"),
+            // ),
           ],
         ),
       ),
