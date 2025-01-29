@@ -8,3 +8,10 @@ class ActivateUser extends UsersEvent {
 
   ActivateUser({required this.newUser});
 }
+
+class AddUsersProfession extends UsersEvent {
+  final String profession;
+  final User user;
+
+  AddUsersProfession({required this.profession, required this.user});
+}

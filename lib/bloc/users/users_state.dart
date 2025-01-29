@@ -11,3 +11,8 @@ sealed class UsersState {
 final class UsersInitial extends UsersState {
   const UsersInitial() : super(userExist: false, user: null);
 }
+
+class UserSetState extends UsersState {
+  final User newUser;
+  const UserSetState(this.newUser) : super(userExist: true, user: newUser);
+}

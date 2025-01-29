@@ -10,5 +10,8 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     on<UsersEvent>((event, emit) {
       // TODO: implement event handler
     });
+    on<AddUsersProfession>((event, emit) {
+      // TODO: implement event handler
+    });
   }
 }
